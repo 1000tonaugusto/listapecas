@@ -1,0 +1,12 @@
+h5 {
+    text-align: center;
+}
+
+#linhaBotao {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#ladoEsquerdo, #ladoDireito {
+    background-color: #333;
+}
