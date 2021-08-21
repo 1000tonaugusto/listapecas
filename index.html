@@ -1,91 +1,111 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Curso Senai - Cadastro de Peças</title>
-        <link rel="stylesheet" type="text/css" href="assets/css/pecas.css">
-        <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css"/>
-    </head>
-    <body>
-        <h1 align="center">Cadastro de peças (Limite de peças 5)</h1>
-        <br>
-        <h1 align="center">Digite dados da peças</h1>
-        <div align="center">
-                <div class="input-container">
-                        <label>Descrição da Peça</label>
-                        <input class="input" type="text" id="nomePeca" name="nomePeca" placeholder="Nome" autofocus>
-                        <br>
-                        <label>Peso da peça</label>
-                        <input class="input" type="text" id="pesoPeca" placeholder="Peso">
-                        <br>
-                        <br>
-                        <button type="submit" id="incluir" disabled>Incluir</button>  
-                        <br>
-                        <br>
-                        <h2>Lista</h2>       
-                <div>
-                <div>
-                    <table name="tabelaPecas">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Nome</th>
-                                <th>Peso</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>    
+
+<head>
+    <meta charset="UTF-8">
+    <title>Curso Senai - Cadastro de Peças</title>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/pecas.css">
+</head>
+
+<body>
+    <div class="image-container set-full-height">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-4 col-offset-4">
+                    <div class="wizard-container" id="formPrincipal">
+                        <div>
+                            <h5>CADASTRO DE PEÇAS</h5>
+                        </div>
+                        <div class="row">
+                            <label for="nomePeca" class="form-label">Descrição da peça:</label>
+                            <input type="text" class="form-control" id="nomePeca">
+                        </div>
+                        <div class="row">
+                            <label for="pesoPeca" class="form-label">Peso da peça:</label>
+                            <input type="text" class="form-control" id="pesoPeca">
+                        </div>
+                        <div class="row" id="linhaBotao">
+                            <button type="submit" class="btn btn-primary" disabled>Incluir</button>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <table id="tabelaPecas">
+                                <thead>
+                                    <tr>
+                                        <th id="tabelaTitulo" colspan="3">Lista</th>
+                                    </tr>
+                                    <tr>
+                                        <th id="tabelaItem">Item</th>
+                                        <th id="tabelaNome">Nome</th>
+                                        <th id="tabelaPeso">Peso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>    
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
-    </body>
-    <script src="assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script>
-		// Função para enviar dados do formulário
-        $("button").click(function(){
-            // Carrega variaveis com dados informados no formulario HTML
-            var nomePeca = $("#nomePeca").val()
-            var pesoPeca = $("#pesoPeca").val()
+    </div>
+</body>
+<script src="assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script>
+    // Declara variaval global
+    var qtdLinhas = 0
 
-            // Verificação de peso da peça a ser incluida
-            if (pesoPeca >= 100) {
-                // Valida quantidade de itens da lista
-                var quantidadeLinhas = $('tr').length;
-                if (quantidadeLinhas <= 5) {
-                    alert("Cadastrou o item "+quantidadeLinhas)
-                    // Monta a linha da tabela
-                    linhaTabela = "<tr><td>"+quantidadeLinhas+"</td><td>"+nomePeca+"</td><td>" 
-                        + pesoPeca + "</td></tr>"
-                    corpoTabela = $("table tbody")
-                    corpoTabela.append(linhaTabela)
-                } else {
-                    // Desabilita o botão
-                    $("button").attr("disabled",true);
-                }
-            } else if (pesoPeca > 0) {
-                alert("Peça abaixo do peso permitido")
+    // Função para enviar dados do formulário
+    $("button").click(function () {
+        // Carrega variaveis com dados informados no formulario HTML
+        var nomePeca = $("#nomePeca").val()
+        var pesoPeca = $("#pesoPeca").val()
+
+        // Verificação de peso da peça a ser incluida
+        if (pesoPeca >= 100) {
+            qtdLinhas=qtdLinhas+1
+
+            // Valida quantidade de itens da lista
+            if (qtdLinhas<=5) {
+                // Monta a linha da tabela
+                linhaTabela = "<tr><td>" + qtdLinhas + "</td><td>" + nomePeca + "</td><td>"
+                    + pesoPeca + "</td></tr>"
+                corpoTabela = $("table tbody")
+                corpoTabela.append(linhaTabela)
+                alert("Cadastrou o item " + qtdLinhas)
             } else {
-                alert("Informe o peso da peça")
-            }
-        });
-    
-        // Valida tamanho da string do nome da peça
-        $("#nomePeca").blur(function() {
-            var tamStringNomePeca = $("#nomePeca").val().length
-            if (tamStringNomePeca <= 3) {
-                // Mostra mensagem para descricao invalida  
-                alert("Descricao invalida")
-
                 // Desabilita o botão
-                $("button").attr("disabled",true);
-
-                //Limpa o campo
-                $("#nomePeca").val("");
-
-            } else {
-                // Se a descrição for valida, habilita o botão
-                $("button").attr("disabled",false);
+                $("button").attr("disabled", true);
             }
-		});
-    </script>
+        } else if (pesoPeca > 0) {
+            alert("Peça abaixo do peso permitido")
+        } else {
+            alert("Informe o peso da peça")
+        }
+    });
+
+    // Valida tamanho da string do nome da peça
+    $("#nomePeca").change(function () {
+        var tamStringNomePeca = $("#nomePeca").val().length
+        if (tamStringNomePeca <= 3) {
+            // Mostra mensagem para descricao invalida  
+            alert("Descricao invalida")
+
+            // Desabilita o botão
+            $("button").attr("disabled", true);
+
+            // Limpa o campo
+            $("#nomePeca").val("");
+
+            // Coloca o curso no campo
+            $("#nomePeca").focus();
+
+        } else {
+            // Se a descrição for valida, habilita o botão
+            $("button").attr("disabled", false);
+        }
+    });
+</script>
+
 </html>
